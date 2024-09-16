@@ -22,7 +22,7 @@ const ModelContent: React.FC<ModelDisplay> = ({ modelData }) => {
     useEffect(() => {
         if (!meshRef.current || !wireframeRef.current) return;
 
-        // 清除旧几何体
+         
         if (meshRef.current.geometry) {
             meshRef.current.geometry.dispose();
             meshRef.current.geometry = null;
@@ -32,7 +32,7 @@ const ModelContent: React.FC<ModelDisplay> = ({ modelData }) => {
             wireframeRef.current.geometry = null;
         }
 
-        // 加载新几何体
+         
         const loader = new STLLoader();
         const geometry: BufferGeometry = loader.parse(modelData);
         meshRef.current.geometry = geometry;
@@ -40,7 +40,7 @@ const ModelContent: React.FC<ModelDisplay> = ({ modelData }) => {
         const wireframeGeometry = new WireframeGeometry(geometry);
         wireframeRef.current.geometry = wireframeGeometry;
 
-    }, [modelData]); // 每次 modelData 改变时触发
+    }, [modelData]);  
 
     useEffect(() => {
         const handleMouseDown = () => {

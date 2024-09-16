@@ -7,20 +7,20 @@ export type HeaderProps = {
     showDetailPane: (isShow: boolean) => void;
     isShowDetailPane: boolean;
     onModelLoad: (data: ArrayBuffer) => void;
-    stlFiles: { fileName: string; fileObject: File; problem: string; class: string }[]; // 添加 stlFiles 类型
-    setStlFiles: React.Dispatch<React.SetStateAction<{ fileName: string; fileObject: File; problem: string; class: string }[]>>; // 添加 setStlFiles 类型
-    selectedFile: string | null; // 添加 selectedFile 类型
-    setSelectedFile: React.Dispatch<React.SetStateAction<string | null>>; // 添加 setSelectedFile 类型
+    stlFiles: { fileName: string; fileObject: File; problem: string; class: string }[];  
+    setStlFiles: React.Dispatch<React.SetStateAction<{ fileName: string; fileObject: File; problem: string; class: string }[]>>;  
+    selectedFile: string | null;  
+    setSelectedFile: React.Dispatch<React.SetStateAction<string | null>>; 
 };
 
 export default function Header({
     showDetailPane,
     isShowDetailPane,
     onModelLoad,
-    stlFiles,  // 从 props 获取
-    setStlFiles,  // 从 props 获取
-    selectedFile,  // 从 props 获取
-    setSelectedFile  // 从 props 获取
+    stlFiles,   
+    setStlFiles,   
+    selectedFile,   
+    setSelectedFile   
 }: HeaderProps) {
     const [fileAnchorEl, setFileAnchorEl] = useState<null | HTMLElement>(null);
     const [settingAnchorEl, setSettingAnchorEl] = useState<null | HTMLElement>(null);
@@ -59,11 +59,11 @@ export default function Header({
                 problem: '',
                 class: ''
             }));
-            setStlFiles(fileData);  // 使用传入的 setStlFiles 更新
+            setStlFiles(fileData);   
 
             if (files.length > 0) {
                 loadSTLFile(files[0]);
-                setSelectedFile(files[0].name);  // 使用传入的 setSelectedFile 更新
+                setSelectedFile(files[0].name);  
             }
 
             handleFileClose();
@@ -74,7 +74,7 @@ export default function Header({
     const handleFileSelect = (fileName: string) => {
         const selectedFileData = stlFiles.find(file => file.fileName === fileName);
         if (selectedFileData) {
-            setSelectedFile(fileName);  // 使用传入的 setSelectedFile 更新
+            setSelectedFile(fileName);   
             loadSTLFile(selectedFileData.fileObject);
         }
     };
@@ -84,7 +84,7 @@ export default function Header({
         reader.readAsArrayBuffer(file);
         reader.onload = () => {
             if (reader.result instanceof ArrayBuffer) {
-                onModelLoad(reader.result); // 调用父组件的回调函数以传递 STL 数据
+                onModelLoad(reader.result); 
             }
         };
     };
@@ -149,7 +149,7 @@ export default function Header({
                             <HelpOutlineIcon />
                         </Button>
                         <Button id="detail-icon" onClick={() => {
-                            showDetailPane(!isShowDetailPane); // 直接通过 props 切换状态
+                            showDetailPane(!isShowDetailPane);  
                         }}>
                             <MoreVertIcon />
                         </Button>
