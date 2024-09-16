@@ -8,7 +8,7 @@ export type DetailPaneProps = {
     setFiles: React.Dispatch<React.SetStateAction<{ fileName: string, problem: string, class: string }[]>>;
     onFileSelect: (fileName: string) => void;
     selectedFile: string | null;
-}
+};
 
 export default function DetailPane({ files, setFiles, onFileSelect, selectedFile }: DetailPaneProps) {
     // 本地状态，用于追踪每个 Accordion 的展开状态

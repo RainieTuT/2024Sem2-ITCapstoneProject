@@ -6,14 +6,24 @@ import DetailPane from './DetailPane';
 export type HeaderProps = {
     showDetailPane: (isShow: boolean) => void;
     isShowDetailPane: boolean;
-    onModelLoad?: (data: ArrayBuffer) => void; 
+    onModelLoad: (data: ArrayBuffer) => void;
+    stlFiles: { fileName: string; fileObject: File; problem: string; class: string }[]; // 添加 stlFiles 类型
+    setStlFiles: React.Dispatch<React.SetStateAction<{ fileName: string; fileObject: File; problem: string; class: string }[]>>; // 添加 setStlFiles 类型
+    selectedFile: string | null; // 添加 selectedFile 类型
+    setSelectedFile: React.Dispatch<React.SetStateAction<string | null>>; // 添加 setSelectedFile 类型
 };
 
-export default function Header({ showDetailPane, isShowDetailPane, onModelLoad }: HeaderProps) {
+export default function Header({
+    showDetailPane,
+    isShowDetailPane,
+    onModelLoad,
+    stlFiles,  // 从 props 获取
+    setStlFiles,  // 从 props 获取
+    selectedFile,  // 从 props 获取
+    setSelectedFile  // 从 props 获取
+}: HeaderProps) {
     const [fileAnchorEl, setFileAnchorEl] = useState<null | HTMLElement>(null);
     const [settingAnchorEl, setSettingAnchorEl] = useState<null | HTMLElement>(null);
-    const [stlFiles, setStlFiles] = useState<{ fileName: string, fileObject: File, problem: string, class: string }[]>([]);
-    const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
     const fileMenuOpen = Boolean(fileAnchorEl);
     const settingMenuOpen = Boolean(settingAnchorEl);
@@ -49,11 +59,11 @@ export default function Header({ showDetailPane, isShowDetailPane, onModelLoad }
                 problem: '',
                 class: ''
             }));
-            setStlFiles(fileData);
+            setStlFiles(fileData);  // 使用传入的 setStlFiles 更新
 
             if (files.length > 0) {
                 loadSTLFile(files[0]);
-                setSelectedFile(files[0].name);
+                setSelectedFile(files[0].name);  // 使用传入的 setSelectedFile 更新
             }
 
             handleFileClose();
@@ -64,7 +74,7 @@ export default function Header({ showDetailPane, isShowDetailPane, onModelLoad }
     const handleFileSelect = (fileName: string) => {
         const selectedFileData = stlFiles.find(file => file.fileName === fileName);
         if (selectedFileData) {
-            setSelectedFile(fileName);
+            setSelectedFile(fileName);  // 使用传入的 setSelectedFile 更新
             loadSTLFile(selectedFileData.fileObject);
         }
     };
@@ -74,11 +84,7 @@ export default function Header({ showDetailPane, isShowDetailPane, onModelLoad }
         reader.readAsArrayBuffer(file);
         reader.onload = () => {
             if (reader.result instanceof ArrayBuffer) {
-                if (onModelLoad) {
-                    onModelLoad(reader.result); // 调用父组件的回调函数以传递 STL 数据
-                } else {
-                    console.error("onModelLoad is not defined");
-                }
+                onModelLoad(reader.result); // 调用父组件的回调函数以传递 STL 数据
             }
         };
     };
@@ -151,15 +157,7 @@ export default function Header({ showDetailPane, isShowDetailPane, onModelLoad }
                 </Toolbar>
             </AppBar>
 
-            {/* 仅当 isShowDetailPane 为 true 时，才渲染 DetailPane */}
-            {isShowDetailPane && (
-                <DetailPane 
-                  files={stlFiles} 
-                  setFiles={setStlFiles} 
-                  onFileSelect={handleFileSelect} 
-                  selectedFile={selectedFile}
-                />
-            )}
+            
         </div>
     );
 }

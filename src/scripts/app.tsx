@@ -49,8 +49,15 @@ const App = () => {
       <Container maxWidth="xl" sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
         {/* 顶部 Header */}
         <Box sx={{ flexGrow: 0 }}>
-        <Header showDetailPane={showDetailPane} isShowDetailPane={isShowDetailPane} onModelLoad={handleModelLoad} 
-/>
+        <Header 
+            showDetailPane={setIsShowDetailPane} 
+            isShowDetailPane={isShowDetailPane} 
+            onModelLoad={handleModelLoad}
+            stlFiles={stlFiles} 
+            setStlFiles={setStlFiles} 
+            selectedFile={selectedFile} 
+            setSelectedFile={setSelectedFile}
+          />
         </Box>
         {/* 网格布局，左侧 Sidebar，中间 ModelDisplay，右侧 DetailPane */}
         <Grid container sx={{ flexGrow: 1 }}>
